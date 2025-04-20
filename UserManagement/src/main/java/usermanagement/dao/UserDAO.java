@@ -2,7 +2,10 @@ package usermanagement.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import usermanagement.model.User;
 
 public class UserDAO {
 	private String jdbcURL = "jdbc:mysql://localhost:3306/usermanagement";
@@ -34,6 +37,19 @@ public class UserDAO {
 	}
 	
 	//Create or insert user 
+	
+	public void insertUser(User user) throws SQLException{
+		try(Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(INSERT_USERS_SQL)) {
+			pstmt.setString(1, user.getName());
+			pstmt.setString(2, user.getEmail());
+			pstmt.setString(3, user.getCountry());
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 		//update user
 		//select user by id 
 		//select users 
